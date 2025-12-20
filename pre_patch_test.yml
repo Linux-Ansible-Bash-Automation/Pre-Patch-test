@@ -1,0 +1,29 @@
+---
+- name: Update RPM and APT cache
+  hosts: '*'
+  become: yes
+  become_method: sudo
+
+  vars:
+    ansible_remote_tmp: /tmp
+
+  tasks:
+    - name: Update APT cache (Ubuntu)
+      ansible.builtin.apt:
+        update_cache: yes
+      ignore_errors: true
+      when: ansible_os_family == 'Debian' or ansible_distribution == 'Ubuntu'
+
+    - name: Update RPM cache (RedHat 7)
+      ansible.builtin.yum:
+        update_cache: yes
+        use_backend: yum
+      ignore_errors: true
+      when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version | int) == 7
+
+    - name: Update DNF cache (RedHat 8+)
+      ansible.builtin.dnf:
+        update_cache: yes
+        use_backend: dnf
+      ignore_errors: true
+      when: ansible_os_family == 'RedHat' and (ansible_distribution_major_version | int) >= 8
