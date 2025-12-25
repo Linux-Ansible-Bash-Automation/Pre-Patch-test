@@ -31,6 +31,7 @@ a cache update fails on any host.
 - Routine system maintenance
 - Automation in heterogeneous Linux environments
 - CI/CD pipeline preparation
+- It also can use for **AWX / Tower / enterprise environments**
 
 ## How to Run
 ansible-playbook -i hosts --ask-pass --become --ask-become-pass  pre_patch_test.yml -e "ansible_user=username"
